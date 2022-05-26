@@ -13,12 +13,12 @@ int main(int argc, char *argv[]){
     struct hostent *host_name;
     struct in_addr *address;
 
-    char input[256];
+    char hostname[256];
     printf("Enter host domain name: ");
-    scanf("%s", input);
-    printf("Host name : %s \n",input);
+    scanf("%s", hostname);
+    printf("Host name : %s \n",hostname);
 
-    host_name = gethostbyname(input);
+    host_name = gethostbyname(hostname);
     if (host_name == NULL){
         printf("Invalid host name!\n");
         exit(1);
