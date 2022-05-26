@@ -23,17 +23,9 @@ int main(int argc, char *argv[]){
         printf("Invalid host name!\n");
         exit(1);
     }else{
-
         for(int i=0; host_name->h_addr_list[i] != NULL; i++){
-            // address = (struct in_addr *) (host_name->h_addr_list[i]);
             printf("IP address: %s \n", inet_ntoa(*(struct in_addr *) (host_name->h_addr_list[i])));
         }
-        
-        
-        /*
-        address = (struct in_addr *) (host_name->h_addr);
-        printf("IP address: %s \n", inet_ntoa(*address));
-        */
     }
     return 0;
 

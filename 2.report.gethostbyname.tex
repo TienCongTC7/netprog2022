@@ -1,0 +1,822 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{Practical 2}
+\author{Nguyen Tien Cong}
+\date{May 2022}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this practical work, we write a C program that show the IP address of the domain name.
+\\*
+- Use the function gethostbyname() to resolve a domain name.
+\\* - Show the resolved IP address
+
+\section{Implementation}
+\textbf{2.1 Include library}
+\\*
+This is very important step, without library, the program won't able to be executed!
+\\*
+Here is all the library that we need to include in out program: 
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+\end{lstlisting}
+\\*
+\textbf{2.2 Get input name from user}
+\begin{lstlisting}
+   char hostname[256];
+   scanf("%256s", hostname);
+   printf("Host name : %s \n",hostname);
+\end{lstlisting}
+\\*
+The array "char hostname[256]" is to store the input of the user
+\\*
+In "scanf" we need to limit the size of the input (256 bytes) to avoid buffer overflow attack.
+\\*
+\begin{lstlisting}
+   host_name = gethostbyname(hostname);
+    if (host_name == NULL){
+        printf("Invalid host name!\n");
+        exit(1);
+    }
+\end{lstlisting}
+\\*
+
+This step is to check the host name that user input is valid or not. If it not valid, it will send a message and close the program
+\\*
+\textbf{2.3 Resolved the Ip address (IPv4)}
+\begin{lstlisting}
+   else{
+        for(int i=0; host_name->h_addr_list[i] != NULL; i++){
+            printf("IP address: %s \n", inet_ntoa(*(struct in_addr *) (host_name->h_addr_list[i])));
+        }
+    }
+\end{lstlisting}
+This code is to print all the IP address of a domain name
+
+\section{Result}
+\textbf{3.1 On laptop}
+\\*
+First, we complile the file:
+\begin{verbatim}
+    gcc 02.practical.work.gethostbyname.c
+\end{verbatim}
+Then run it with the input: "google.com"
+\begin{verbatim}
+    ./a.out
+\end{verbatim}
+And the result:
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 172.217.25.14 
+\end{verbatim}
+
+\textbf{3.2 On VPS}
+\\*
+First, we need to connect to the server
+\begin{verbatim}
+    root@{server ip address}
+\end{verbatim}
+\\*
+Then we compile the C file and run it like we did above
+\\*
+With the input :"google.com"
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 142.251.10.139 
+    IP address: 142.251.10.138 
+    IP address: 142.251.10.113 
+    IP address: 142.251.10.102 
+    IP address: 142.251.10.100 
+    IP address: 142.251.10.101
+\end{verbatim}
+\\*
+\textbf{3.3 Explain}
+\\*
+As you can see, the result on my local laptop and on my VPS is different. Because the geological distance can make a domain have a multiple addresses.
+
+\end{document}
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{Practical 2}
+\author{Nguyen Tien Cong}
+\date{May 2022}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this practical work, we write a C program that show the IP address of the domain name.
+\\*
+- Use the function gethostbyname() to resolve a domain name.
+\\* - Show the resolved IP address
+
+\section{Implementation}
+\textbf{2.1 Include library}
+\\*
+This is very important step, without library, the program won't able to be executed!
+\\*
+Here is all the library that we need to include in out program: 
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+\end{lstlisting}
+\\*
+\textbf{2.2 Get input name from user}
+\begin{lstlisting}
+   char hostname[256];
+   scanf("%256s", hostname);
+   printf("Host name : %s \n",hostname);
+\end{lstlisting}
+\\*
+The array "char hostname[256]" is to store the input of the user
+\\*
+In "scanf" we need to limit the size of the input (256 bytes) to avoid buffer overflow attack.
+\\*
+\begin{lstlisting}
+   host_name = gethostbyname(hostname);
+    if (host_name == NULL){
+        printf("Invalid host name!\n");
+        exit(1);
+    }
+\end{lstlisting}
+\\*
+
+This step is to check the host name that user input is valid or not. If it not valid, it will send a message and close the program
+\\*
+\textbf{2.3 Resolved the Ip address (IPv4)}
+\begin{lstlisting}
+   else{
+        for(int i=0; host_name->h_addr_list[i] != NULL; i++){
+            printf("IP address: %s \n", inet_ntoa(*(struct in_addr *) (host_name->h_addr_list[i])));
+        }
+    }
+\end{lstlisting}
+This code is to print all the IP address of a domain name
+
+\section{Result}
+\textbf{3.1 On laptop}
+\\*
+First, we complile the file:
+\begin{verbatim}
+    gcc 02.practical.work.gethostbyname.c
+\end{verbatim}
+Then run it with the input: "google.com"
+\begin{verbatim}
+    ./a.out
+\end{verbatim}
+And the result:
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 172.217.25.14 
+\end{verbatim}
+
+\textbf{3.2 On VPS}
+\\*
+First, we need to connect to the server
+\begin{verbatim}
+    root@{server ip address}
+\end{verbatim}
+\\*
+Then we compile the C file and run it like we did above
+\\*
+With the input :"google.com"\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{Practical 2}
+\author{Nguyen Tien Cong}
+\date{May 2022}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this practical work, we write a C program that show the IP address of the domain name.
+\\*
+- Use the function gethostbyname() to resolve a domain name.
+\\* - Show the resolved IP address
+
+\section{Implementation}
+\textbf{2.1 Include library}
+\\*
+This is very important step, without library, the program won't able to be executed!
+\\*
+Here is all the library that we need to include in out program: 
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+\end{lstlisting}
+\\*
+\textbf{2.2 Get input name from user}
+\begin{lstlisting}
+   char hostname[256];
+   scanf("%256s", hostname);
+   printf("Host name : %s \n",hostname);
+\end{lstlisting}
+\\*
+The array "char hostname[256]" is to store the input of the user
+\\*
+In "scanf" we need to limit the size of the input (256 bytes) to avoid buffer overflow attack.
+\\*
+\begin{lstlisting}
+   host_name = gethostbyname(hostname);
+    if (host_name == NULL){
+        printf("Invalid host name!\n");
+        exit(1);
+    }
+\end{lstlisting}
+\\*
+
+This step is to check the host name that user input is valid or not. If it not valid, it will send a message and close the program
+\\*
+\textbf{2.3 Resolved the Ip address (IPv4)}
+\begin{lstlisting}
+   else{
+        for(int i=0; host_name->h_addr_list[i] != NULL; i++){
+            printf("IP address: %s \n", inet_ntoa(*(struct in_addr *) (host_name->h_addr_list[i])));
+        }
+    }
+\end{lstlisting}
+This code is to print all the IP address of a domain name
+
+\section{Result}
+\textbf{3.1 On laptop}
+\\*
+First, we complile the file:
+\begin{verbatim}
+    gcc 02.practical.work.gethostbyname.c
+\end{verbatim}
+Then run it with the input: "google.com"
+\begin{verbatim}
+    ./a.out
+\end{verbatim}
+And the result:
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 172.217.25.14 
+\end{verbatim}
+
+\textbf{3.2 On VPS}
+\\*
+First, we need to connect to the server
+\begin{verbatim}
+    root@{server ip address}
+\end{verbatim}
+\\*
+Then we compile the C file and run it like we did above
+\\*
+With the input :"google.com"
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 142.251.10.139 
+    IP address: 142.251.10.138 
+    IP address: 142.251.10.113 
+    IP address: 142.251.10.102 
+    IP address: 142.251.10.100 
+    IP address: 142.251.10.101
+\end{verbatim}
+\\*
+\textbf{3.3 Explain}
+\\*
+As you can see, the result on my local laptop and on my VPS is different. Because the geological distance can make a domain have a multiple addresses.
+
+\end{document}
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{Practical 2}
+\author{Nguyen Tien Cong}
+\date{May 2022}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this practical work, we write a C program that show the IP address of the domain name.
+\\*
+- Use the function gethostbyname() to resolve a domain name.
+\\* - Show the resolved IP address
+
+\section{Implementation}
+\textbf{2.1 Include library}
+\\*
+This is very important step, without library, the program won't able to be executed!
+\\*
+Here is all the library that we need to include in out program: 
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+\end{lstlisting}
+\\*
+\textbf{2.2 Get input name from user}
+\begin{lstlisting}
+   char hostname[256];
+   scanf("%256s", hostname);
+   printf("Host name : %s \n",hostname);
+\end{lstlisting}
+\\*
+The array "char hostname[256]" is to store the input of the user
+\\*
+In "scanf" we need to limit the size of the input (256 bytes) to avoid buffer overflow attack.
+\\*
+\begin{lstlisting}
+   host_name = gethostbyname(hostname);
+    if (host_name == NULL){
+        printf("Invalid host name!\n");
+        exit(1);
+    }
+\end{lstlisting}
+\\*
+
+This step is to check the host name that user input is valid or not. If it not valid, it will send a message and close the program
+\\*
+\textbf{2.3 Resolved the Ip address (IPv4)}
+\begin{lstlisting}
+   else{
+        for(int i=0; host_name->h_addr_list[i] != NULL; i++){
+            printf("IP address: %s \n", inet_ntoa(*(struct in_addr *) (host_name->h_addr_list[i])));
+        }
+    }
+\end{lstlisting}
+This code is to print all the IP address of a domain name
+
+\section{Result}
+\textbf{3.1 On laptop}
+\\*
+First, we complile the file:
+\begin{verbatim}
+    gcc 02.practical.work.gethostbyname.c
+\end{verbatim}
+Then run it with the input: "google.com"
+\begin{verbatim}
+    ./a.out
+\end{verbatim}
+And the result:
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 172.217.25.14 
+\end{verbatim}
+
+\textbf{3.2 On VPS}
+\\*
+First, we need to connect to the server
+\begin{verbatim}
+    root@{server ip address}
+\end{verbatim}
+\\*
+Then we compile the C file and run it like we did above
+\\*
+With the input :"google.com"
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 142.251.10.139 
+    IP address: 142.251.10.138 
+    IP address: 142.251.10.113 
+    IP address: 142.251.10.102 
+    IP address: 142.251.10.100 
+    IP address: 142.251.10.101
+\end{verbatim}
+\\*
+\textbf{3.3 Explain}
+\\*
+As you can see, the result on my local laptop and on my VPS is different. Because the geological distance can make a domain have a multiple addresses.
+
+\end{document}
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{Practical 2}
+\author{Nguyen Tien Cong}
+\date{May 2022}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this practical work, we write a C program that show the IP address of the domain name.
+\\*
+- Use the function gethostbyname() to resolve a domain name.
+\\* - Show the resolved IP address
+
+\section{Implementation}
+\textbf{2.1 Include library}
+\\*
+This is very important step, without library, the program won't able to be executed!
+\\*
+Here is all the library that we need to include in out program: 
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+\end{lstlisting}
+\\*
+\textbf{2.2 Get input name from user}
+\begin{lstlisting}
+   char hostname[256];
+   scanf("%256s", hostname);
+   printf("Host name : %s \n",hostname);
+\end{lstlisting}
+\\*
+The array "char hostname[256]" is to store the input of the user
+\\*
+In "scanf" we need to limit the size of the input (256 bytes) to avoid buffer overflow attack.
+\\*
+\begin{lstlisting}
+   host_name = gethostbyname(hostname);
+    if (host_name == NULL){
+        printf("Invalid host name!\n");
+        exit(1);
+    }
+\end{lstlisting}
+\\*
+
+This step is to check the host name that user input is valid or not. If it not valid, it will send a message and close the program
+\\*
+\textbf{2.3 Resolved the Ip address (IPv4)}
+\begin{lstlisting}
+   else{
+        for(int i=0; host_name->h_addr_list[i] != NULL; i++){
+            printf("IP address: %s \n", inet_ntoa(*(struct in_addr *) (host_name->h_addr_list[i])));
+        }
+    }
+\end{lstlisting}
+This code is to print all the IP address of a domain name
+
+\section{Result}
+\textbf{3.1 On laptop}
+\\*
+First, we complile the file:
+\begin{verbatim}
+    gcc 02.practical.work.gethostbyname.c
+\end{verbatim}
+Then run it with the input: "google.com"
+\begin{verbatim}
+    ./a.out
+\end{verbatim}
+And the result:
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 172.217.25.14 
+\end{verbatim}
+
+\textbf{3.2 On VPS}
+\\*
+First, we need to connect to the server
+\begin{verbatim}
+    root@{server ip address}
+\end{verbatim}
+\\*
+Then we compile the C file and run it like we did above
+\\*
+With the input :"google.com"
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 142.251.10.139 
+    IP address: 142.251.10.138 
+    IP address: 142.251.10.113 
+    IP address: 142.251.10.102 
+    IP address: 142.251.10.100 
+    IP address: 142.251.10.101
+\end{verbatim}
+\\*
+\textbf{3.3 Explain}
+\\*
+As you can see, the result on my local laptop and on my VPS is different. Because the geological distance can make a domain have a multiple addresses.
+
+\end{document}
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\title{Practical 2}
+\author{Nguyen Tien Cong}
+\date{May 2022}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+In this practical work, we write a C program that show the IP address of the domain name.
+\\*
+- Use the function gethostbyname() to resolve a domain name.
+\\* - Show the resolved IP address
+
+\section{Implementation}
+\textbf{2.1 Include library}
+\\*
+This is very important step, without library, the program won't able to be executed!
+\\*
+Here is all the library that we need to include in out program: 
+\begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string.h>
+\end{lstlisting}
+\\*
+\textbf{2.2 Get input name from user}
+\begin{lstlisting}
+   char hostname[256];
+   scanf("%256s", hostname);
+   printf("Host name : %s \n",hostname);
+\end{lstlisting}
+\\*
+The array "char hostname[256]" is to store the input of the user
+\\*
+In "scanf" we need to limit the size of the input (256 bytes) to avoid buffer overflow attack.
+\\*
+\begin{lstlisting}
+   host_name = gethostbyname(hostname);
+    if (host_name == NULL){
+        printf("Invalid host name!\n");
+        exit(1);
+    }
+\end{lstlisting}
+\\*
+
+This step is to check the host name that user input is valid or not. If it not valid, it will send a message and close the program
+\\*
+\textbf{2.3 Resolved the Ip address (IPv4)}
+\begin{lstlisting}
+   else{
+        for(int i=0; host_name->h_addr_list[i] != NULL; i++){
+            printf("IP address: %s \n", inet_ntoa(*(struct in_addr *) (host_name->h_addr_list[i])));
+        }
+    }
+\end{lstlisting}
+This code is to print all the IP address of a domain name
+
+\section{Result}
+\textbf{3.1 On laptop}
+\\*
+First, we complile the file:
+\begin{verbatim}
+    gcc 02.practical.work.gethostbyname.c
+\end{verbatim}
+Then run it with the input: "google.com"
+\begin{verbatim}
+    ./a.out
+\end{verbatim}
+And the result:
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 172.217.25.14 
+\end{verbatim}
+
+\textbf{3.2 On VPS}
+\\*
+First, we need to connect to the server
+\begin{verbatim}
+    root@{server ip address}
+\end{verbatim}
+\\*
+Then we compile the C file and run it like we did above
+\\*
+With the input :"google.com"
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 142.251.10.139 
+    IP address: 142.251.10.138 
+    IP address: 142.251.10.113 
+    IP address: 142.251.10.102 
+    IP address: 142.251.10.100 
+    IP address: 142.251.10.101
+\end{verbatim}
+\\*
+\textbf{3.3 Explain}
+\\*
+As you can see, the result on my local laptop and on my VPS is different. Because the geological distance can make a domain have a multiple addresses.
+
+\end{document}
+
+\begin{verbatim}
+    Enter host domain name: google.com
+    Host name : google.com 
+    IP address: 142.251.10.139 
+    IP address: 142.251.10.138 
+    IP address: 142.251.10.113 
+    IP address: 142.251.10.102 
+    IP address: 142.251.10.100 
+    IP address: 142.251.10.101
+\end{verbatim}
+\\*
+\textbf{3.3 Explain}
+\\*
+As you can see, the result on my local laptop and on my VPS is different. Because google has different IP address in world to enable fast routing to nearest server.
+
+\end{document}
