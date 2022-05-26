@@ -27,6 +27,7 @@ int main(int argc, char *argv[]){
             printf("IP address: %s \n", inet_ntoa(*(struct in_addr *) (host_name->h_addr_list[i])));
         }
     }
+    printf("Program end! \n");
     return 0;
 
 }
