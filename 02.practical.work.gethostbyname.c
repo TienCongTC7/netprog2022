@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
 
     char hostname[256];
     printf("Enter host domain name: ");
-    scanf("%s", hostname);
+    scanf("%256s", hostname);
     printf("Host name : %s \n",hostname);
 
     host_name = gethostbyname(hostname);
@@ -23,14 +23,17 @@ int main(int argc, char *argv[]){
         printf("Invalid host name!\n");
         exit(1);
     }else{
-        /*
-        address = (struct in_addr *) (host_name->h_addr_list);
-        printf("IP address: %s \n", inet_ntoa(*address));
-        */
+
+        for(int i=0; host_name->h_addr_list[i] != NULL; i++){
+            // address = (struct in_addr *) (host_name->h_addr_list[i]);
+            printf("IP address: %s \n", inet_ntoa(*(struct in_addr *) (host_name->h_addr_list[i])));
+        }
         
+        
+        /*
         address = (struct in_addr *) (host_name->h_addr);
         printf("IP address: %s \n", inet_ntoa(*address));
-        
+        */
     }
     return 0;
 
