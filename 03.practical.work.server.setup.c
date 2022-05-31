@@ -10,7 +10,7 @@
 int main(int argc, char *argv[]){
     struct sockaddr_in saddr, caddr;
     int sockfd, clen, clientfd;
-    unsigned short port = 8764;
+    unsigned short port = 8784;
     sockfd = socket(AF_INET,SOCK_STREAM,0);
     if((sockfd < 0)){
         printf("Error creating socket\n");
@@ -34,6 +34,7 @@ int main(int argc, char *argv[]){
         printf("Error accepting connection \n");
         return 1;
     }
+    printf("Connected\n");
     return 0;
 
 }
