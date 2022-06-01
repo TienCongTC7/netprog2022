@@ -11,6 +11,8 @@ int main(int argc, char *argv[]){
     struct sockaddr_in saddr, caddr;
     int sockfd, clen, clientfd;
     unsigned short port = 8784;
+    char buffer[256];
+    char buffer2[256];
     sockfd = socket(AF_INET,SOCK_STREAM,0);
     if((sockfd < 0)){
         printf("Error creating socket\n");
@@ -34,7 +36,16 @@ int main(int argc, char *argv[]){
         printf("Error accepting connection \n");
         return 1;
     }
+    int n;
     printf("Connected\n");
+    while(1){
+        recv(clientfd,buffer,sizeof(buffer),0);
+        printf("CLient to You: %s\n",buffer);
+        scanf("%256s", buffer);
+        printf("You: ");
+        send(clientfd,buffer,sizeof(buffer),0);
+    
+    }
     return 0;
 
 }

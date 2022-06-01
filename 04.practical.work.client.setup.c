@@ -16,6 +16,8 @@ int main(int argc, char *argv[]){
     int sockfd;
     unsigned short port = 8784;
     char hostname[256];
+    char buffer[256];
+    char buffer2[256];
     printf("Enter host domain name: ");
     scanf("%256s", hostname);
     printf("Host name: %s\n",hostname);
@@ -37,4 +39,13 @@ int main(int argc, char *argv[]){
     if (connect(sockfd, (struct sockaddr *) &saddr, sizeof(saddr)) < 0) {
         printf("Cannot connect\n");
     }
+    int n;
+    while(1){
+        printf("You: ");
+        scanf("%256s", buffer);
+        send(sockfd,buffer,sizeof(buffer),0);
+        recv(sockfd,buffer,sizeof(buffer),0);
+        printf("Server to You: %s\n",buffer);
+    }
+    return 0;
 }
