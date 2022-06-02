@@ -38,7 +38,14 @@ int main(int argc, char *argv[]){
     }
     int n;
     printf("Connected\n");
+    while(1){
+        recv(clientfd,buffer_receive,sizeof(buffer_receive),0);
+        printf("CLient to You: %s\n",buffer_receive);
+        printf("You: ");
+        scanf("%256s", buffer_send);
+        send(clientfd,buffer_send,strlen(buffer_send),0);
     
+    }
     return 0;
 
 }
