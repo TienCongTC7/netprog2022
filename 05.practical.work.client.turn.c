@@ -47,5 +47,6 @@ int main(int argc, char *argv[]){
         recv(sockfd,buffer_receive,sizeof(buffer_receive),0);
         printf("Server to You: %s\n",buffer_receive);
     }
+    printf("Good Bye");
     return 0;
 }

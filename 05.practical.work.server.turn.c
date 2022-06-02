@@ -44,8 +44,8 @@ int main(int argc, char *argv[]){
         printf("You: ");
         scanf("%256s", buffer_send);
         send(clientfd,buffer_send,strlen(buffer_send),0);
-    
     }
+    printf("Good bye!");
     return 0;
 
 }
