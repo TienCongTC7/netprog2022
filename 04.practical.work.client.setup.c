@@ -40,12 +40,6 @@ int main(int argc, char *argv[]){
         printf("Cannot connect\n");
     }
     int n;
-    while(1){
-        printf("You: ");
-        scanf("%256s", buffer_send);
-        send(sockfd,buffer_send,strlen(buffer_send),0);
-        recv(sockfd,buffer_receive,sizeof(buffer_receive),0);
-        printf("Server to You: %s\n",buffer_receive);
-    }
+    
     return 0;
 }
