@@ -51,13 +51,6 @@ int main(int argc, char *argv[]){
             printf("$ ");
             fgets(buffer,256,stdin);
             send(clientfd,buffer,strlen(buffer),0);
-            int i = strncmp("dc",buffer, 2);
-            if (i==0){
-                n =2;
-                close(sockfd);
-                close(clientfd);
-                break;
-            }
         }
               
         memset(buffer,0,sizeof(buffer));
