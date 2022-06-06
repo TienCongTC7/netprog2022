@@ -42,8 +42,8 @@ int main(int argc, char *argv[]){
         printf("Cannot connect\n");
         return 1;
     }
-    int n = 1;
-    while(n==1){
+    int finished = 1;
+    while(finished==1){
         while(buffer[strlen(buffer)-1] != '\n'){
             memset(buffer,0, sizeof(buffer));
             printf("$ ");
@@ -61,7 +61,8 @@ int main(int argc, char *argv[]){
             recv(sockfd, buffer,sizeof(buffer),0);
             int a = strncmp("dc",buffer,2);
             if(a==0){
-                n = 2;
+                finished = 2;
+                close(sockfd);
                 break;
             }
             printf("Server: %s\n",buffer);

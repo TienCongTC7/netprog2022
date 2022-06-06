@@ -39,8 +39,8 @@ int main(int argc, char *argv[]){
         return 1;
     }
     printf("Connected\n");
-    int n=1;
-    while(n==1){
+    int finished=1;
+    while(finished==1){
         while(buffer[strlen(buffer)-1] != '\n'){
             recv(clientfd,buffer,sizeof(buffer),0);
             printf("Client: %s\n", buffer);
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]){
             fgets(buffer,256,stdin);
             send(clientfd,buffer,strlen(buffer),0);
         }
-              
+            
         memset(buffer,0,sizeof(buffer));
 
     }
