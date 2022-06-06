@@ -9,6 +9,9 @@
 #include <arpa/inet.h>
 #include <string.h>
 
+
+
+
 int main(int argc, char *argv[]){
     struct sockaddr_in saddr;
     struct in_addr *address;
@@ -16,8 +19,7 @@ int main(int argc, char *argv[]){
     int sockfd;
     unsigned short port = 8784;
     char hostname[256];
-    char buffer_send[256];
-    char buffer_receive[256];
+    char buffer[256];
     printf("Enter host domain name: ");
     scanf("%256s", hostname);
     printf("Host name: %s\n",hostname);
@@ -38,14 +40,25 @@ int main(int argc, char *argv[]){
     saddr.sin_port = htons(port);
     if (connect(sockfd, (struct sockaddr *) &saddr, sizeof(saddr)) < 0) {
         printf("Cannot connect\n");
+        return 1;
     }
+    int n;
     while(1){
-        printf("You: ");
-        fgets(buffer_send,256,stdin);
-        send(sockfd,buffer_send,strlen(buffer_send),0);
-        recv(sockfd,buffer_receive,sizeof(buffer_receive),0);
-        printf("Server to You: %s\n",buffer_receive);
+        while(buffer[strlen(buffer)-1] != '\n'){
+            printf("$ ");
+            fgets(buffer, 256, stdin);
+            send(sockfd,buffer,strlen(buffer),0);
+
+        }
+        memset(buffer,0, sizeof(buffer));
+        while(buffer[strlen(buffer)-1] != '\n'){
+            recv(sockfd, buffer,sizeof(buffer),0);
+            printf("Server: %s\n",buffer);
+        }
+        memset(buffer,0,sizeof(buffer));
+      
     }
-    printf("Good Bye");
+    printf("Good Bye\n");
+    close(sockfd);
     return 0;
 }

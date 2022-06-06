@@ -5,14 +5,16 @@
 #include <string.h>
 #include <unistd.h>
 
+void check(char buffer[], int n){
+    
 
+}
 
 int main(int argc, char *argv[]){
     struct sockaddr_in saddr, caddr;
     int sockfd, clen, clientfd;
     unsigned short port = 8784;
-    char buffer_send[256];
-    char buffer_receive[256];
+    char buffer[256];
     sockfd = socket(AF_INET,SOCK_STREAM,0);
     if((sockfd < 0)){
         printf("Error creating socket\n");
@@ -36,16 +38,29 @@ int main(int argc, char *argv[]){
         printf("Error accepting connection \n");
         return 1;
     }
-    int n;
     printf("Connected\n");
+    int n;
     while(1){
-        recv(clientfd,buffer_receive,sizeof(buffer_receive),0);
-        printf("CLient to You: %s\n",buffer_receive);
-        printf("You: ");
-        fgets(buffer_send,256,stdin);
-        send(clientfd,buffer_send,strlen(buffer_send),0);
+        while(buffer[strlen(buffer)-1] != '\n'){
+            recv(clientfd,buffer,sizeof(buffer),0);
+            printf("Client: %s\n", buffer);
+        }
+        memset(buffer,0,sizeof(buffer));
+        while(buffer[strlen(buffer)-1] != '\n'){
+            printf("$ ");
+            fgets(buffer,256,stdin);
+            send(clientfd,buffer,strlen(buffer),0);
+        }
+        memset(buffer,0,sizeof(buffer));
+        int i = strncmp("exit",buffer, 4);
+        if (i==0){
+            break;
+        }      
+
     }
-    printf("Good bye!");
+    printf("Good bye!\n");
+    close(sockfd);
+    close(clientfd);
     return 0;
 
 }
