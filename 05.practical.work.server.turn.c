@@ -41,9 +41,11 @@ int main(int argc, char *argv[]){
     while(1){
         recv(clientfd,buffer_receive,sizeof(buffer_receive),0);
         printf("CLient to You: %s\n",buffer_receive);
+        memset(buffer_receive,0,sizeof(buffer_receive));
         printf("You: ");
         fgets(buffer_send,256,stdin);
         send(clientfd,buffer_send,strlen(buffer_send),0);
+        memset(buffer_send,0,sizeof(buffer_send));
     }
     printf("Good bye!");
     return 0;

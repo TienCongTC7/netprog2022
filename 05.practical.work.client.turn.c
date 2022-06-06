@@ -43,8 +43,10 @@ int main(int argc, char *argv[]){
         printf("You: ");
         fgets(buffer_send,256,stdin);
         send(sockfd,buffer_send,strlen(buffer_send),0);
+        memset(buffer_send,0,sizeof(buffer_send));
         recv(sockfd,buffer_receive,sizeof(buffer_receive),0);
         printf("Server to You: %s\n",buffer_receive);
+        memset(buffer_receive,0,sizeof(buffer_receive));
     }
     printf("Good Bye");
     return 0;
