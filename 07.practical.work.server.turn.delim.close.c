@@ -3,12 +3,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <string.h>
-#include <unistd.h>
-
-void check(char buffer[], int n){
-    
-
-}
+#include <unistd.h>-
 
 int main(int argc, char *argv[]){
     struct sockaddr_in saddr, caddr;
