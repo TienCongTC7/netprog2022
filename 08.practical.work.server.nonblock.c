@@ -56,12 +56,11 @@ int main(int argc, char *argv[]){
                 /*
                 while(buffer[strlen(buffer)-1] != '\n'){
                     recv(clientfd,buffer,sizeof(buffer),0);
-                    printf("Client in while: %s\n", buffer);
+                    //printf("Client in while: %s\n", buffer);
                     
                 }*/
                 
                 memset(buffer,0,sizeof(buffer));
-
                 if(poll(&stdin_pollfd, 1, 0) > 0){
                     if(stdin_pollfd.revents & POLLIN){
                         printf("$ ");
@@ -74,8 +73,11 @@ int main(int argc, char *argv[]){
                         printf("$ ");
                         fgets(buffer,256,stdin);
                         send(clientfd,buffer,strlen(buffer),0);
+                        memset(buffer,0,sizeof(buffer));
                 }*/
-                memset(buffer,0,sizeof(buffer));
+                if(running){
+                    printf("$ ");
+                }
                 
             }
             close(clientfd);

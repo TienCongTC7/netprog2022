@@ -54,22 +54,22 @@ int main(int argc, char *argv[]){
     int finished = 1;
     while(finished==1){
         if(recv(sockfd, buffer, sizeof(buffer),0)>0){
-            printf("$ \n");
             printf("Server: %s\n", buffer);
             int a = strncmp("dc",buffer,2);
             if(a==0){
                 break;
             }
-        }/*
+        }
+        /*
         while(buffer[strlen(buffer)-1] != '\n'){
             recv(sockfd,buffer,sizeof(buffer),0);
             printf("Server in while: %s\n",buffer);
         }*/
         memset(buffer,0,sizeof(buffer));
+        
         if(poll(&stdin_pollfd,1,0)>0){
             if(stdin_pollfd.revents & POLLIN){
                 //memset(buffer,0, sizeof(buffer));
-                printf("$ ");g
                 fgets(buffer, 256, stdin);
                 int i = strncmp("quit",buffer,4);
                 if(i==0){
@@ -80,14 +80,17 @@ int main(int argc, char *argv[]){
                 send(sockfd,buffer,strlen(buffer),0);
             }
             memset(buffer,0, sizeof(buffer));
-            /*
-            while(buffer[strlen(buffer-1) != '\n']){
-                printf("$ ");
+            
+            /*while(buffer[strlen(buffer-1) != '\n']){
                 fgets(buffer,256,stdin);
                 send(sockfd, buffer, sizeof(buffer),0);
                 memset(buffer,0,sizeof(buffer));
             }*/
+            if(finished){
+                printf("$ ");
+            }
         }
+        
         
       
     }
