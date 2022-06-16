@@ -1,12 +1,12 @@
 import socket
 import sys
 
-host = "127.0.0.1"
-host = sys.argv[1]
+host = (sys.argv[1])
+PORT = int(sys.argv[2])
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 while True:
     msg = input("Enter your message: ")
-    s.sendto(msg.encode(),("127.0.0.1",8765))
+    s.sendto(msg.encode(),(host,PORT))
     if(msg == "exit"):
         break
 
