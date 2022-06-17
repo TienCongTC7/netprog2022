@@ -1,8 +1,6 @@
 import sys
 import socket
 
-PORT = 1234
-
 def main():
     s = socket.socket()
     s.connect( ('',PORT))
@@ -17,4 +15,5 @@ def main():
     s.close()
 
 if __name__ == "__main__":
+    PORT = int(sys.argv[1])
     main()
